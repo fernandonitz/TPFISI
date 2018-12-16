@@ -93,31 +93,47 @@ def main(adivinadores):#,vendedores):
 	arch = open(RUTA + "\\aAdivinar.csv",'r')
 	#it = [0,0,0]
 	cp = miCodigosPostales.MiCodigoPostal()
+
+	cant = 0
+	aciertos = 0
+
 	for linea in arch:
 		reg = linea.split(',')
+		fechaHoraDespacho		=reg[11]
 		fechaHoraAprobacion     =reg[4]
 		idVend                  =reg[6]
 		categ 					=reg[8]
 		zipCode  				=reg[9]	
 		#datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp)
-		datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp)
-		#k = len(datos)
+		datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp, fechaHoraDespacho)
+		k = len(datos)
 		#it = datos[k-1]
 		#datos = datos[:k-1]
-		cantEstimada = adivinar(datos,adivinadores)#,idVend,vendedores)
-		print (cantEstimada)
-		
+		cantEstimada = adivinar(datos[:k-1],adivinadores)#,idVend,vendedores)
+		#print ("dias estimadas: " + str(cantEstimada) + " ,dias reales: " + str(datos[k-1]))
+		if round(cantEstimada) == int(datos[k-1]) :
+			aciertos = aciertos + 1
+		cant = cant + 1
+		print(cantEstimada)
+	print("porcentaje de aciertos = " + str(aciertos/cant))
+
 	arch.close()
 
 #def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp):
-def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp):
+def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp,fechaHoraDespacho):
 	unTiempo = miTiempo.MiTiempo()
 	unTiempo.definirTiempo(fechaHoraAprobacion)
 	
 	horaAprobacion = unTiempo.darHora()
 	horaAprobacion = int(horaAprobacion)
 	diaAprobacion = unTiempo.darDiaSemana()
-	
+	tTot = unTiempo.restarTiempos(fechaHoraDespacho,fechaHoraAprobacion)
+	hTTot = 0
+	if(tTot<24):hTTot = 1
+	elif(24<= tTot < 48):hTTot = 2
+	elif(48<= tTot < 72):hTTot = 3
+	elif(72<= tTot < 96):hTTot = 4
+	else:hTTot = 5
 	#if not idVend in hVend:
 	#	hVend[idVend] = it[0]
 	#	nVend = it[0]
@@ -139,7 +155,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp):
 	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
 	#return  [horaAprobacion,diaAprobacion,nCateg,nit]	
-	return  [horaAprobacion,diaAprobacion,nCodZip]	
+	return  [horaAprobacion,diaAprobacion,nCodZip,hTTot]	
 	
 def promediar(resultados):
 	l = len(resultados)	
@@ -155,7 +171,7 @@ oPerc = upload("perceptron")
 oKmeans = upload("kmeans")
 
 #vendedores = levantarVendedores()
-adivinadores = [oKnn,oPerc,oKmeans]
+adivinadores = [oPerc]
 	
 #main(adivinadores,vendedores)	
 main(adivinadores)#,vendedores)
