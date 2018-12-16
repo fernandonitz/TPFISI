@@ -274,14 +274,14 @@ xy = recorrerNormalizado()
 x = xy[0]
 y = xy[1]
 
-#print ("Entrenando al perceptron...")
-#objInferencia = fperceptron(x,y)
-#dump(objInferencia,"perceptron")
-#
-#print ("Entrenando al kmeans...")
-#objInferencia = kmeans(x,y)
-#dump(objInferencia,"kmeans")
-#
+print ("Entrenando al perceptron...")
+objInferencia = fperceptron(x,y)
+dump(objInferencia,"perceptron")
+
+print ("Entrenando al kmeans...")
+objInferencia = kmeans(x,y)
+dump(objInferencia,"kmeans")
+
 print ("Entrenando al knn...")
 objInferencia = knn(x,y)
 dump(objInferencia,"knn")

@@ -31,7 +31,7 @@ def traerHis(usuario):
 		vCompras.append(reg)
 	return vCompras
 	
-def adivinar(reg,adivinadores,idVend,vendedores):
+def adivinar(reg,adivinadores)#,idVend,vendedores):
 	resultado = []
 	for adivinador in adivinadores:
 		aAdivinar = []
@@ -40,16 +40,17 @@ def adivinar(reg,adivinadores,idVend,vendedores):
 		resultado.append(res[0])
 	promedio = promediar(resultado)
 	
-	if idVend in vendedores:
-		reg = traerHis(idVend)
-		Ehis = sacarEsperanzaHis(reg)
-		Vhis = sacarVarianzaHis(reg,Ehis)
-		l = len(reg)
-		n = ponderar(Ehis,Vhis,l)
-		return Ehis * n + promedio * (1 - n)	
-	else:
-		return promedio
-
+	#if idVend in vendedores:
+	#	reg = traerHis(idVend)
+	#	Ehis = sacarEsperanzaHis(reg)
+	#	Vhis = sacarVarianzaHis(reg,Ehis)
+	#	l = len(reg)
+	#	n = ponderar(Ehis,Vhis,l)
+	#	return Ehis * n + promedio * (1 - n)	
+	#else:
+	return promedio
+	
+	
 def ponderar(E,V,l):
 	#cantHs,weekday,hora,categ
 	pond = 0
@@ -87,9 +88,10 @@ def sacarVarianzaHis(reg,E):
 		V = V + ((elem[0] - E) * (elem[0] - E))
 	return V/l
 
-def main(adivinadores,vendedores):
+#def main(adivinadores,vendedores):
+def main(adivinadores)#,vendedores):
 	arch = open(RUTA + "\\aAdivinar.csv",'r')
-	it = [0,0,0]
+	#it = [0,0,0]
 	cp = miCodigosPostales.MiCodigoPostal()
 	for linea in arch:
 		reg = linea.split(',')
@@ -99,10 +101,10 @@ def main(adivinadores,vendedores):
 		zipCode  				=reg[9]	
 		#datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp)
 		datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp)
-		k = len(datos)
-		it = datos[k-1]
-		datos = datos[:k-1]
-		cantEstimada = adivinar(datos,adivinadores,idVend,vendedores)
+		#k = len(datos)
+		#it = datos[k-1]
+		#datos = datos[:k-1]
+		cantEstimada = adivinar(datos,adivinadores)#,idVend,vendedores)
 		print (cantEstimada)
 		
 	arch.close()
@@ -137,7 +139,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp):
 	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
 	#return  [horaAprobacion,diaAprobacion,nCateg,nit]	
-	return  [horaAprobacion,diaAprobacion,nCateg]	
+	return  [horaAprobacion,diaAprobacion,nCodZip]	
 	
 def promediar(resultados):
 	l = len(resultados)	
@@ -148,12 +150,15 @@ def promediar(resultados):
 	
 #hVend = upload("hVend")
 #hCateg = upload("hCateg")
-oPerc = upload("knn")
+oKnn = upload("knn")
+oPerc = upload("perceptron")
+oKmeans = upload("kmeans")
+
 #vendedores = levantarVendedores()
-adivinadores = [oPerc]
+adivinadores = [oKnn,oPerc,oKmeans]
 	
-main(adivinadores,vendedores)
-	
+#main(adivinadores,vendedores)	
+main(adivinadores)#,vendedores)
 	
 	
 	
