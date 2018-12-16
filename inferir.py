@@ -31,7 +31,7 @@ def traerHis(usuario):
 		vCompras.append(reg)
 	return vCompras
 	
-def adivinar(reg,adivinadores)#,idVend,vendedores):
+def adivinar(reg,adivinadores):#,idVend,vendedores):
 	resultado = []
 	for adivinador in adivinadores:
 		aAdivinar = []
@@ -89,7 +89,7 @@ def sacarVarianzaHis(reg,E):
 	return V/l
 
 #def main(adivinadores,vendedores):
-def main(adivinadores)#,vendedores):
+def main(adivinadores):#,vendedores):
 	arch = open(RUTA + "\\aAdivinar.csv",'r')
 	#it = [0,0,0]
 	cp = miCodigosPostales.MiCodigoPostal()
