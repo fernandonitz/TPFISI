@@ -41,10 +41,12 @@ def main ():
 		if i > 0:	 
 			datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,cp)
 			k = len(datos)
-			it = datos[k-1]
-			datos = datos[:k-1]
+			#it = datos[k-1]
+			#datos = datos[:k-1]
+			datos = datos[:k]
 			aEsc = ""
-			for elem in range(k-1):
+			#for elem in range(k-1):
+			for elem in range(k):
 				if elem == 0:					
 					aEsc = aEsc + str(datos[elem])
 				else: 
@@ -106,7 +108,8 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	if(tTot<24):hTTot = 1
 	elif(24<= tTot < 48):hTTot = 2
 	elif(48<= tTot < 72):hTTot = 3
-	else:hTTot = 4
+	elif(72<= tTot < 96):hTTot = 4
+	else:hTTot = 5
 
 	nCodZip = cp.darProv(str(zipCode))
 	#print (str(zipCode))
@@ -115,7 +118,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
 	#return  [horaAprobacion,diaAprobacion,nCateg,tTot,nit]
-	return  [horaAprobacion,diaAprobacion,hTTot,nCodZip]
+	return  [horaAprobacion,diaAprobacion,nCodZip,hTTot]
 	
 def recorrerNormalizado():
 	res = []
@@ -264,7 +267,7 @@ def fperceptron(x,y):
 	#print('accuracy:', clf.score(train_data, train_answers))
 	return perc
 		
-crearEscritorio(RUTA + "\\vendedores")
+#crearEscritorio(RUTA + "\\vendedores")
 	
 main()	
 xy = recorrerNormalizado()
