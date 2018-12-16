@@ -90,7 +90,7 @@ def sacarVarianzaHis(reg,E):
 
 #def main(adivinadores,vendedores):
 def main(adivinadores):#,vendedores):
-	arch = open(RUTA + "\\aAdivinar.csv",'r')
+	arch = open(RUTA + "\\testSet.csv",'r')
 	#it = [0,0,0]
 	cp = miCodigosPostales.MiCodigoPostal()
 

@@ -26,7 +26,7 @@ def main ():
 	hVendedores = {}
 	print (time.strftime('%H:%M:%S')) 
 	cp = miCodigosPostales.MiCodigoPostal()
-	arch = open(RUTA + "\\data_handling.csv",'r')
+	arch = open(RUTA + "\\trainSet.csv",'r')
 	archNor = open(RUTA + "\\normalizado.txt",'w')
 	#it = [0,0,0]
 	i = 0
