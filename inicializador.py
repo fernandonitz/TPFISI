@@ -28,7 +28,7 @@ def main ():
 	cp = miCodigosPostales.MiCodigoPostal()
 	arch = open(RUTA + "\\data_handling.csv",'r')
 	archNor = open(RUTA + "\\normalizado.txt",'w')
-	it = [0,0,0]
+	#it = [0,0,0]
 	i = 0
 	j = 0
 	for linea in arch:
@@ -39,7 +39,7 @@ def main ():
 		zipCode  				=reg[9]
 		fechaHoraDespacho       =reg[11]
 		if i > 0:	 
-			datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,it,cp)
+			datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,cp)
 			k = len(datos)
 			it = datos[k-1]
 			datos = datos[:k-1]
@@ -52,32 +52,33 @@ def main ():
 		
 			archNor.write( aEsc + "\n")
 					
-			if not idVend in hVendedores:
-				reg = []
-				reg.append(datos)
-				hVendedores[idVend] = reg
-			else:
-				reg = hVendedores[idVend]
-				reg.append(datos)
-				hVendedores[idVend] = reg
+			#if not idVend in hVendedores:
+			#	reg = []
+			#	reg.append(datos)
+			#	hVendedores[idVend] = reg
+			#else:
+			#	reg = hVendedores[idVend]
+			#	reg.append(datos)
+			#	hVendedores[idVend] = reg
 		
-		if j == 15000:
-			print ("se procesaron " + str(i) + " registros...")
-			guardarHashEnJson(hVendedores)
-			hVendedores = {}
-			j = 0
+		#if j == 15000:
+		#	print ("se procesaron " + str(i) + " registros...")
+		#	guardarHashEnJson(hVendedores)
+		#	hVendedores = {}
+		#	j = 0
 		
 		j = j + 1		
 		i = i + 1
 		
-	dump(hVend,"hVend")
-	dump(hCateg,"hCateg")	
-	guardarVendedores()	
+	#dump(hVend,"hVend")
+	#dump(hCateg,"hCateg")	
+	#guardarVendedores()	
 	arch.close()
 	archNor.close()
 	print (time.strftime('%H:%M:%S'))
 
-def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,it,cp):
+#def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,it,cp):
+def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,cp):
 	
 	unTiempo = miTiempo.MiTiempo()
 	unTiempo.definirTiempo(fechaHoraAprobacion)
@@ -87,27 +88,34 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,i
 	diaAprobacion = unTiempo.darDiaSemana()
 	tTot = unTiempo.restarTiempos(fechaHoraDespacho,fechaHoraAprobacion)
 	
-	if not idVend in hVend:
-		hVend[idVend] = it[0]
-		nVend = it[0]
-		it[0] = it[0] + 1
-	else:
-		nVend = hVend[idVend]
-		
-	if not categ in hCateg:
-		hCateg[categ] = it[1]
-		nCateg = it[1]
-		it[1] = it[1] + 1
-	else:
-		nCateg = hCateg[categ]
+	#if not idVend in hVend:
+	#	hVend[idVend] = it[0]
+	#	nVend = it[0]
+	#	it[0] = it[0] + 1
+	#else:
+	#	nVend = hVend[idVend]
+	#	
+	#if not categ in hCateg:
+	#	hCateg[categ] = it[1]
+	#	nCateg = it[1]
+	#	it[1] = it[1] + 1
+	#else:
+	#	nCateg = hCateg[categ]
+
+	hTTot = 0
+	if(tTot<24):hTTot = 1
+	elif(24<= tTot < 48):hTTot = 2
+	elif(48<= tTot < 72):hTTot = 3
+	else:hTTot = 4
 
 	nCodZip = cp.darProv(str(zipCode))
 	#print (str(zipCode))
 	#print (nCodZip)
-	
-	nit = [it[0],it[1],it[2]]
+	 
+	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
-	return  [horaAprobacion,diaAprobacion,nCateg,tTot,nit]
+	#return  [horaAprobacion,diaAprobacion,nCateg,tTot,nit]
+	return  [horaAprobacion,diaAprobacion,hTTot,nCodZip]
 	
 def recorrerNormalizado():
 	res = []

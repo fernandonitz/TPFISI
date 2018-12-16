@@ -143,10 +143,10 @@ def promediar(resultados):
 		res = res + elem
 	return res/l
 	
-hVend = upload("hVend")
-hCateg = upload("hCateg")
+#hVend = upload("hVend")
+#hCateg = upload("hCateg")
 oPerc = upload("knn")
-vendedores = levantarVendedores()
+#vendedores = levantarVendedores()
 adivinadores = [oPerc]
 	
 main(adivinadores,vendedores)
