@@ -114,7 +114,7 @@ def main(adivinadores):#,vendedores):
 		if round(cantEstimada) == int(datos[k-1]) :
 			aciertos = aciertos + 1
 		cant = cant + 1
-		print(cantEstimada)
+		#print(cantEstimada)
 	print("porcentaje de aciertos = " + str(aciertos/cant))
 
 	arch.close()
@@ -132,14 +132,12 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp,fechaHoraDespach
 	if(tTot<24):hTTot = 1
 	elif(24<= tTot < 48):hTTot = 2
 	elif(48<= tTot < 72):hTTot = 3
-	elif(72<= tTot < 96):hTTot = 4
-	else:hTTot = 5
-	#if not idVend in hVend:
-	#	hVend[idVend] = it[0]
-	#	nVend = it[0]
-	#	it[0] = it[0] + 1
-	#else:
-	#	nVend = hVend[idVend]
+	else:hTTot = 4
+	
+	nVend = -1
+	if idVend in hVend:
+		nVend = hVend[idVend]
+
 	#	
 	#if not categ in hCateg:
 	#	hCateg[categ] = it[1]
@@ -155,7 +153,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp,fechaHoraDespach
 	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
 	#return  [horaAprobacion,diaAprobacion,nCateg,nit]	
-	return  [horaAprobacion,diaAprobacion,nCodZip,hTTot]	
+	return  [horaAprobacion,diaAprobacion,nCodZip,nVend,hTTot]	
 	
 def promediar(resultados):
 	l = len(resultados)	
@@ -164,11 +162,11 @@ def promediar(resultados):
 		res = res + elem
 	return res/l
 	
-#hVend = upload("hVend")
+hVend = upload("hVend")
 #hCateg = upload("hCateg")
-oKnn = upload("knn")
+#oKnn = upload("knn")
 oPerc = upload("perceptron")
-oKmeans = upload("kmeans")
+#oKmeans = upload("kmeans")
 
 #vendedores = levantarVendedores()
 adivinadores = [oPerc]

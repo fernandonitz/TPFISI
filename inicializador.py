@@ -16,6 +16,7 @@ from sklearn.linear_model import perceptron
 import pickle
 
 hVend = {}
+nVend = 0
 hCateg = {}
 vendedores = []
 
@@ -31,6 +32,7 @@ def main ():
 	#it = [0,0,0]
 	i = 0
 	j = 0
+
 	for linea in arch:
 		reg = linea.split(',')
 		fechaHoraAprobacion     =reg[4]
@@ -72,7 +74,7 @@ def main ():
 		j = j + 1		
 		i = i + 1
 		
-	#dump(hVend,"hVend")
+	dump(hVend,"hVend")
 	#dump(hCateg,"hCateg")	
 	#guardarVendedores()	
 	arch.close()
@@ -90,12 +92,13 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	diaAprobacion = unTiempo.darDiaSemana()
 	tTot = unTiempo.restarTiempos(fechaHoraDespacho,fechaHoraAprobacion)
 	
-	#if not idVend in hVend:
-	#	hVend[idVend] = it[0]
-	#	nVend = it[0]
-	#	it[0] = it[0] + 1
-	#else:
-	#	nVend = hVend[idVend]
+	global nVend
+
+	if not idVend in hVend:
+		hVend[idVend] = nVend
+		nVend = nVend + 1
+	else:
+		nVend = hVend[idVend]
 	#	
 	#if not categ in hCateg:
 	#	hCateg[categ] = it[1]
@@ -108,8 +111,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	if(tTot<24):hTTot = 1
 	elif(24<= tTot < 48):hTTot = 2
 	elif(48<= tTot < 72):hTTot = 3
-	elif(72<= tTot < 96):hTTot = 4
-	else:hTTot = 5
+	else:hTTot = 4
 
 	nCodZip = cp.darProv(str(zipCode))
 	#print (str(zipCode))
@@ -118,7 +120,7 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
 	#return  [horaAprobacion,diaAprobacion,nCateg,tTot,nit]
-	return  [horaAprobacion,diaAprobacion,nCodZip,hTTot]
+	return  [horaAprobacion,diaAprobacion,nCodZip,nVend,hTTot]
 	
 def recorrerNormalizado():
 	res = []
@@ -278,13 +280,13 @@ print ("Entrenando al perceptron...")
 objInferencia = fperceptron(x,y)
 dump(objInferencia,"perceptron")
 
-print ("Entrenando al kmeans...")
-objInferencia = kmeans(x,y)
-dump(objInferencia,"kmeans")
-
-print ("Entrenando al knn...")
-objInferencia = knn(x,y)
-dump(objInferencia,"knn")
+#print ("Entrenando al kmeans...")
+#objInferencia = kmeans(x,y)
+#dump(objInferencia,"kmeans")
+#
+#print ("Entrenando al knn...")
+#objInferencia = knn(x,y)
+#dump(objInferencia,"knn")
 
 
 
