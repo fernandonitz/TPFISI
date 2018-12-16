@@ -97,7 +97,8 @@ def main(adivinadores,vendedores):
 		idVend                  =reg[6]
 		categ 					=reg[8]
 		zipCode  				=reg[9]	
-		datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp)
+		#datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp)
+		datos  = normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp)
 		k = len(datos)
 		it = datos[k-1]
 		datos = datos[:k-1]
@@ -106,7 +107,8 @@ def main(adivinadores,vendedores):
 		
 	arch.close()
 
-def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp):
+#def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp):
+def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp):
 	unTiempo = miTiempo.MiTiempo()
 	unTiempo.definirTiempo(fechaHoraAprobacion)
 	
@@ -114,27 +116,28 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,it,cp):
 	horaAprobacion = int(horaAprobacion)
 	diaAprobacion = unTiempo.darDiaSemana()
 	
-	if not idVend in hVend:
-		hVend[idVend] = it[0]
-		nVend = it[0]
-		it[0] = it[0] + 1
-	else:
-		nVend = hVend[idVend]
-		
-	if not categ in hCateg:
-		hCateg[categ] = it[1]
-		nCateg = it[1]
-		it[1] = it[1] + 1
-	else:
-		nCateg = hCateg[categ]
+	#if not idVend in hVend:
+	#	hVend[idVend] = it[0]
+	#	nVend = it[0]
+	#	it[0] = it[0] + 1
+	#else:
+	#	nVend = hVend[idVend]
+	#	
+	#if not categ in hCateg:
+	#	hCateg[categ] = it[1]
+	#	nCateg = it[1]
+	#	it[1] = it[1] + 1
+	#else:
+	#	nCateg = hCateg[categ]
 
 	nCodZip = cp.darProv(str(zipCode))
 	#print (str(zipCode))
 	#print (nCodZip)
 	
-	nit = [it[0],it[1],it[2]]
+	#nit = [it[0],it[1],it[2]]
 	#return  [horaAprobacion,diaAprobacion,nVend,nCateg,nCodZip,tTot,nit]
-	return  [horaAprobacion,diaAprobacion,nCateg,nit]	
+	#return  [horaAprobacion,diaAprobacion,nCateg,nit]	
+	return  [horaAprobacion,diaAprobacion,nCateg]	
 	
 def promediar(resultados):
 	l = len(resultados)	
