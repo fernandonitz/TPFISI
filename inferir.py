@@ -115,7 +115,9 @@ def main(adivinadores):#,vendedores):
 			aciertos = aciertos + 1
 		cant = cant + 1
 		#print(cantEstimada)
-	print("porcentaje de aciertos = " + str(aciertos/cant))
+	print("Se predijieron " + str(cant) + " registos.")
+	print("Se acertaron " + str (aciertos) + " registros.")
+	print("El porcentaje de aciertos es: " + str(aciertos/cant) + "%.")
 
 	arch.close()
 
@@ -128,11 +130,17 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,cp,fechaHoraDespach
 	horaAprobacion = int(horaAprobacion)
 	diaAprobacion = unTiempo.darDiaSemana()
 	tTot = unTiempo.restarTiempos(fechaHoraDespacho,fechaHoraAprobacion)
+	#hTTot = 0
+	#if(tTot<24):hTTot = 1
+	#elif(24<= tTot < 48):hTTot = 2
+	#elif(48<= tTot < 72):hTTot = 3
+	#else:hTTot = 4
+
 	hTTot = 0
-	if(tTot<24):hTTot = 1
-	elif(24<= tTot < 48):hTTot = 2
-	elif(48<= tTot < 72):hTTot = 3
-	else:hTTot = 4
+	if(0 <= tTot < 48):hTTot = 1
+	elif(48 <= tTot < 96):hTTot = 2
+	elif(96 <= tTot < 144):hTTot = 3
+	else: hTTot = 4
 	
 	nVend = -1
 	if idVend in hVend:
@@ -164,13 +172,15 @@ def promediar(resultados):
 	
 hVend = upload("hVend")
 #hCateg = upload("hCateg")
-#oKnn = upload("knn")
+
+oKnn = upload("knn")
 oPerc = upload("perceptron")
 #oKmeans = upload("kmeans")
+oRF = upload("randomForest")
 
 #vendedores = levantarVendedores()
-adivinadores = [oPerc]
-	
+adivinadores = [oKnn,oPerc,oRF]
+#adivinadores = [oKmeans]	
 #main(adivinadores,vendedores)	
 main(adivinadores)#,vendedores)
 	

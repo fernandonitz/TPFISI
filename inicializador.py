@@ -19,6 +19,7 @@ hVend = {}
 nVend = 0
 hCateg = {}
 vendedores = []
+hcant = [0,0,0,0]
 
 RUTA = os.getcwd()
 #RUTA = "e:\\fernandon\\Desktop\\ML"
@@ -107,11 +108,25 @@ def normalizarDatos(fechaHoraAprobacion,idVend,categ,zipCode,fechaHoraDespacho,c
 	#else:
 	#	nCateg = hCateg[categ]
 
+	#hTTot = 0
+	#if(tTot<24):hTTot = 1
+	#elif(24<= tTot < 48):hTTot = 2
+	#elif(48<= tTot < 72):hTTot = 3
+	#else:hTTot = 4
+
 	hTTot = 0
-	if(tTot<24):hTTot = 1
-	elif(24<= tTot < 48):hTTot = 2
-	elif(48<= tTot < 72):hTTot = 3
-	else:hTTot = 4
+	if(0 <= tTot < 48):
+		hTTot = 1
+		hcant[0] = hcant[0] + 1
+	elif(48 <= tTot < 96):
+		hTTot = 2
+		hcant[1] = hcant[1] + 1
+	elif(96 <= tTot < 144):
+		hTTot = 3
+		hcant[2] = hcant[2] + 1
+	else: 
+		hTTot = 4
+		hcant[3] = hcant[3] + 1
 
 	nCodZip = cp.darProv(str(zipCode))
 	#print (str(zipCode))
@@ -229,7 +244,7 @@ def upload(nombre):
 	
 #Metodos de Inferencia
 	
-def Svc(x,y,r):
+def Svm(x,y,r):
 	C = 1.0  # parametro de regulacion SVM 
 	
 	if r == 1:svc = svm.SVC(kernel='linear', C=C).fit(x, y)
@@ -248,7 +263,7 @@ def randomForest(x,y):
 	return rf	
 
 def kmeans(x,y):
-	k = 7
+	k = 4
 	for i in range(k):
 		p = x[y == i]
 		#print (p)
@@ -280,13 +295,17 @@ print ("Entrenando al perceptron...")
 objInferencia = fperceptron(x,y)
 dump(objInferencia,"perceptron")
 
-#print ("Entrenando al kmeans...")
-#objInferencia = kmeans(x,y)
-#dump(objInferencia,"kmeans")
-#
-#print ("Entrenando al knn...")
-#objInferencia = knn(x,y)
-#dump(objInferencia,"knn")
+print ("Entrenando al kmeans...")
+objInferencia = kmeans(x,y)
+dump(objInferencia,"kmeans")
+
+print ("Entrenando al knn...")
+objInferencia = knn(x,y)
+dump(objInferencia,"knn")
+
+print ("Entrenando al randomForest...")
+objInferencia = randomForest(x,y)
+dump(objInferencia,"randomForest")
 
 
 
